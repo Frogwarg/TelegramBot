@@ -1,15 +1,27 @@
-﻿using System;
+﻿using Domain.Entities.ValueObjects;
+using Domain.Primitives;
+using System;
+using System.Collections.Generic;
 
 namespace Domain.Entities
 {
-    public class Person:BaseEntity
+    public class Person<T>: BaseEntity
     {
         public Person()
         {
 
         }
+        /// <summary>
+        /// ФИО человека
+        /// </summary>
         public FullName FullName { get; set; }
-        public DateTime BirthDay { get; set; }
+        /// <summary>
+        /// День рождения
+        /// </summary>
+        public DateTime BirthDay { get; private set; }
+        /// <summary>
+        /// Возраст
+        /// </summary>
         public int Age {
             get
             {
@@ -17,11 +29,19 @@ namespace Domain.Entities
             }
             set
             {
-                //TODO: реализовать set (проверка, правильно ли установили)
+                if (DateTime.Now.Year - BirthDay.Year == value)
+                {
+                    Age = value;
+                }
             }
         }
-
-        //!!! лист сущностей класс CustomField хранящий имя поля и значение
-        public List<CustomField> CustomFields { get; set; }
+        /// <summary>
+        /// Пол
+        /// </summary>
+        public Gender Gender { get; set; }
+        /// <summary>
+        /// Список особенных полей, хранящих имя поля и значение
+        /// </summary>
+        public List<CustomField<T>> CustomFields { get; set; }
     }
 }

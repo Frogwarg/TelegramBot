@@ -1,24 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿using Domain.Entities.ValueObjects;
+using System;
 namespace Domain.Entities
 {
     /// <summary>
     /// Базовый класс для всех сущностей
     /// </summary>
-    public abstract class BaseEntity:ValueObjects.FullName
+    public abstract class BaseEntity
     {
         /// <summary>
         /// Идентификатор
         /// </summary>
-        public Guid ID { get; set; }
+        public static Guid ID { get; set; }
         /// <summary>
-        /// TODO: Описать
+        /// Сравнивает два объекта BaseEntity
         /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public override bool Equals(object obj)
+        /// <param name="obj">Объект для сравнения</param>
+        /// <returns>True, если объекты равны и false - иначе</returns>
+        public override bool Equals(object? obj)
         {
             if (obj == null) return false;
             if (obj is not BaseEntity)
@@ -32,12 +30,14 @@ namespace Domain.Entities
             return base.Equals(obj);
         }
         /// <summary>
-        /// TODO:Переопределить
+        /// Получает хеш-значение базовой сущности
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Хеш-значение</returns>
         public override int GetHashCode()
         {
-            throw new NotImplementedException();
+            var hash = 17;
+            hash = hash * 23 + ID.GetHashCode();
+            return hash;
         }
     }
 }
